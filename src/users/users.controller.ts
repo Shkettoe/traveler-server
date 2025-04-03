@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query-user.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -20,9 +23,10 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @IsPublic()
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() queryUserDto: QueryUserDto) {
+    return this.usersService.find(queryUserDto);
   }
 
   @Get(':id')

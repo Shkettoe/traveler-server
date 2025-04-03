@@ -20,6 +20,8 @@ async function bootstrap() {
     .setDescription('Plan your next trip with us')
     .setVersion('1.0')
     .addTag('travel')
+    .addBearerAuth()
+    .addSecurityRequirements('bearer')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
