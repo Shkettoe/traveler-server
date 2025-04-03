@@ -8,6 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { QueryUserDto } from './dto/query-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -24,8 +25,8 @@ export class UsersService {
     }
   }
 
-  async findAll() {
-    return await this.usersRepository.find();
+  async find(queryUserDto: QueryUserDto) {
+    return await this.usersRepository.find({ where: queryUserDto });
   }
 
   async findOne(id: number) {
