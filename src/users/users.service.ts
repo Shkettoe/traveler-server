@@ -8,13 +8,16 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryUserDto } from './dto/query-user.dto';
+import { AbstractService } from 'src/common/abstract.service';
+import { QueryUsersDto } from './dto/query-user.dto';
 
 @Injectable()
-export class UsersService {
+export class UsersService extends AbstractService<QueryUsersDto, User> {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
-  ) {}
+  ) {
+    super(usersRepository);
+  }
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -23,10 +26,6 @@ export class UsersService {
     } catch (error) {
       throw new BadRequestException(error);
     }
-  }
-
-  async find(queryUserDto: QueryUserDto) {
-    return await this.usersRepository.find({ where: queryUserDto });
   }
 
   async findOne(id: number) {

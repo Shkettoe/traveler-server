@@ -1,15 +1,19 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
+import { QueryDto } from 'src/common/dto/query.dto';
+import { User } from '../entities/user.entity';
+import { IsEnum, IsOptional } from 'class-validator';
 
-export class QueryUserDto {
-  @IsString()
-  @IsOptional()
-  firstName?: string;
+enum OrderBy {
+  EMAIL = 'email',
+  CREATED_AT = 'createdAt',
+  UPDATED_AT = 'updatedAt',
+}
 
-  @IsString()
+export class QueryUsersDto extends IntersectionType(
+  QueryDto,
+  PartialType(PickType(User, ['email', 'firstName', 'lastName'])),
+) {
   @IsOptional()
-  lastName?: string;
-
-  @IsEmail()
-  @IsOptional()
-  email?: string;
+  @IsEnum(OrderBy)
+  orderBy?: OrderBy;
 }

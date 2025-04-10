@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryUserDto } from './dto/query-user.dto';
+import { QueryUsersDto } from './dto/query-user.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('users')
@@ -25,7 +25,7 @@ export class UsersController {
 
   @IsPublic()
   @Get()
-  findAll(@Query() queryUserDto: QueryUserDto) {
+  findAll(@Query() queryUserDto: QueryUsersDto) {
     return this.usersService.find(queryUserDto);
   }
 
