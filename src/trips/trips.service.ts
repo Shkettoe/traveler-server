@@ -10,6 +10,7 @@ import { Trip } from './entities/trip.entity';
 import { Repository } from 'typeorm';
 import { QueryTripsDto } from './dto/query-trip.dto';
 import { AbstractService } from 'src/common/abstract.service';
+import { Destination } from 'src/destinations/entities/destination.entity';
 
 @Injectable()
 export class TripsService extends AbstractService<QueryTripsDto, Trip> {
@@ -20,8 +21,10 @@ export class TripsService extends AbstractService<QueryTripsDto, Trip> {
   }
 
   async create(createTripDto: CreateTripDto) {
+    if (createTripDto.startDate > createTripDto.endDate)
+      throw new BadRequestException('Start date must be before the end date');
     try {
-      const trip = this.tripsRepository.create(createTripDto);
+      const trip = this.tripsRepository.create(createTripDto as Partial<Trip>);
       return await this.tripsRepository.save(trip);
     } catch (error) {
       throw new BadRequestException(error);
@@ -37,11 +40,27 @@ export class TripsService extends AbstractService<QueryTripsDto, Trip> {
     return trip;
   }
 
-  update(id: number, updateTripDto: UpdateTripDto) {
-    return `This action updates a #${id} trip`;
+  async update(id: number, updateTripDto: UpdateTripDto) {
+    try {
+      const { destinations, ...dto } = updateTripDto;
+      const trip = await this.findOne(id);
+
+      Object.assign(trip, dto);
+
+      if (destinations)
+        trip.destinations = destinations.map((id) => ({ id })) as Destination[];
+
+      return await this.tripsRepository.save(trip);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} trip`;
+  async remove(id: number) {
+    try {
+      return await this.tripsRepository.delete(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

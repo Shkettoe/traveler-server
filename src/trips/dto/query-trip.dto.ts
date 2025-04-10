@@ -1,4 +1,4 @@
-import { IntersectionType, PartialType, PickType } from '@nestjs/mapped-types';
+import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { QueryDto } from 'src/common/dto/query.dto';
 import { Trip } from '../entities/trip.entity';
 import { IsEnum, IsOptional } from 'class-validator';

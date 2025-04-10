@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtGuard } from './auth/guards/jwt.guard';
 import { TripsModule } from './trips/trips.module';
-import { AbstractService } from './common/abstract.service';
+import { DestinationsModule } from './destinations/destinations.module';
 import dataSource from 'db/data-source';
 
 @Module({
@@ -20,6 +20,7 @@ import dataSource from 'db/data-source';
     TypeOrmModule.forRoot({ ...dataSource.options, autoLoadEntities: true }),
     AuthModule,
     TripsModule,
+    DestinationsModule,
   ],
   controllers: [AppController],
   providers: [
