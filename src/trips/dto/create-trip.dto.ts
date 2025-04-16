@@ -1,13 +1,15 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsDateString,
   IsObject,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { Destination } from 'src/destinations/entities/destination.entity';
+import { CreateExpenseDto } from 'src/expenses/dto/create-expense.dto';
 import { User } from 'src/users/entities/user.entity';
 
 export class CreateTripDto {
@@ -36,4 +38,10 @@ export class CreateTripDto {
   @IsArray()
   @IsOptional()
   destinations?: number[];
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateExpenseDto)
+  expenses?: CreateExpenseDto[];
 }

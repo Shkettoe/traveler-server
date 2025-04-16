@@ -3,7 +3,7 @@ import { CreateTripDto } from './create-trip.dto';
 import { IsArray, IsOptional } from 'class-validator';
 
 export class UpdateTripDto extends PartialType(
-  OmitType(CreateTripDto, ['user', 'destinations']),
+  OmitType(CreateTripDto, ['user', 'destinations', 'expenses']),
 ) {
   @IsArray()
   @IsOptional()
