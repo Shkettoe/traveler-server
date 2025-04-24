@@ -4,19 +4,22 @@ import { DestinationsController } from './destinations.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Destination } from './entities/destination.entity';
 import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { memoryStorage } from 'multer';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Destination]),
     MulterModule.register({
       dest: './public/uploads/destinations',
-      storage: diskStorage({
+      // Local storage
+      /* storage: diskStorage({
         destination: './public/uploads/destinations',
         filename: (_, file, cb) => {
           cb(null, new Date().getTime() + '-' + file.originalname);
         },
-      }),
+      }), */
+      // Cloud storage
+      storage: memoryStorage(),
     }),
   ],
   controllers: [DestinationsController],

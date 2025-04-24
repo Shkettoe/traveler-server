@@ -22,14 +22,18 @@ export class DestinationsController {
   @UseInterceptors(FileInterceptor('media'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateDestinationDto })
-  create(
+  @IsPublic()
+  async create(
     @Body() createDestinationDto: CreateDestinationDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.destinationsService.create({
+    // Local logic
+    /* return this.destinationsService.create({
       ...createDestinationDto,
       media: file ? `uploads/destinations/${file.filename}` : null,
-    });
+    }); */
+    // Cloud logic
+    return await this.destinationsService.create(createDestinationDto, file);
   }
 
   @Get()
