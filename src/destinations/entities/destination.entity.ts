@@ -11,6 +11,9 @@ export class Destination extends AppEntity {
   @Column()
   country: string;
 
+  @Column({ nullable: true })
+  media: string;
+
   @ManyToMany(() => Trip, (trip) => trip.destinations)
   @JoinTable()
   trips: Trip[];

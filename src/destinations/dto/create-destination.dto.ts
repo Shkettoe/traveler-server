@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateDestinationDto {
   @IsString()
@@ -8,4 +9,8 @@ export class CreateDestinationDto {
   @IsString()
   @IsNotEmpty()
   country: string;
+
+  @IsOptional()
+  @ApiProperty({ type: 'string', format: 'binary' })
+  media?: any;
 }
