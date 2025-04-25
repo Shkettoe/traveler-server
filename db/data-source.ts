@@ -8,13 +8,12 @@ const configService = new ConfigService();
 
 export default new DataSource({
   type: 'postgres',
-  host: '35.246.201.187',
-  /* host: configService.get('DB_HOST'),*/
+  host: configService.get('DB_HOST'),
   port: configService.get<number>('DB_PORT'),
   username: configService.get('DB_USER'),
   password: configService.get('DB_PASSWORD'),
-  /* database: configService.get('DB_DATABASE'), */
-  database: 'travel_planner',
+  database: configService.get('DB_DATABASE'),
+  // ssl: true, // for live databases only
   entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: false,
   migrations: ['dist/db/migrations/*{.ts,.js}'],
