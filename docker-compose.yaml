@@ -1,0 +1,25 @@
+services:
+  backend:
+    build:
+      context: .
+    image: shkettoe/traveller-demo-backend:latest
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=traveler-db
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_USER=postgres
+    ports:
+      - 35000:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data: {}
