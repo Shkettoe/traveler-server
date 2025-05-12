@@ -15,10 +15,14 @@ import { IsPublic } from './decorators/is-public.decorator';
 import { User } from 'src/users/entities/user.entity';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { RegistrationInterceptor } from './interceptors/registration.interceptor';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @ApiBody({ type: SignInDto })
   @IsPublic()
@@ -32,8 +36,8 @@ export class AuthController {
   }
 
   @Get('me')
-  profile(@Req() req: Request & { user: object }) {
-    return req.user;
+  async profile(@Req() req: Request & { user: { userId: number } }) {
+    return await this.usersService.findOne(req.user.userId);
   }
 
   @ApiBody({ type: CreateUserDto })

@@ -37,20 +37,20 @@ export class TripsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tripsService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.tripsService.findOne(id);
   }
 
   @Patch(':id')
   @UseGuards(AuthorGuard)
-  update(@Param('id') id: string, @Body() updateTripDto: UpdateTripDto) {
-    return this.tripsService.update(+id, updateTripDto);
+  update(@Param('id') id: number, @Body() updateTripDto: UpdateTripDto) {
+    return this.tripsService.update(id, updateTripDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthorGuard)
-  remove(@Param('id') id: string) {
-    return this.tripsService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.tripsService.remove(id);
   }
 
   @Post(':id/expenses')

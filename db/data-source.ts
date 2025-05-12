@@ -13,7 +13,7 @@ export default new DataSource({
   username: configService.get('DB_USER'),
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_DATABASE'),
-  // ssl: true, // for live databases only
+  ssl: configService.get('DB_SSL'), // for live databases only
   entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: false,
   migrations: ['dist/db/migrations/*{.ts,.js}'],
